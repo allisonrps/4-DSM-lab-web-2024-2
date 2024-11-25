@@ -1,0 +1,24 @@
+{
+    "id": "12345",
+    "nome": "Produto A",
+    "descricao": "Descrição do produto A",
+    "categoria": "Categoria X",
+    "marca": "Marca Y",
+    "preco": 199.99,
+    "quantidadeEstoque": 50,
+    "codigoBarras": "7891234567890",
+    "dimensoes": {
+        "altura": 10,
+        "largura": 15,
+        "profundidade": 5
+    },
+    "peso": {
+        "valor": 2.5,
+        "unidade": "kg"
+    },
+    "status": "ativo",
+    "dataCadastro": "2024-11-25T10:00:00Z"
+}
+
+
+

@@ -1,0 +1,42 @@
+psql -h localhost -p 5433 -U fatec
+
+
+select * from alunos;
+
+ \c produtos
+
+
+DELETE FROM produtos WHERE id = '12345';
+
+
+DROP TABLE IF EXISTS alunos;
+
+
+CREATE TABLE produtos (
+    id VARCHAR NOT NULL PRIMARY KEY,
+    nome VARCHAR NOT NULL,
+    descricao TEXT NOT NULL,
+    categoria VARCHAR NOT NULL,
+    marca VARCHAR NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    quantidade_estoque INTEGER NOT NULL,
+    codigo_barras VARCHAR(13) NOT NULL,
+    dimensoes JSONB NOT NULL,
+    peso JSONB NOT NULL,
+    status VARCHAR NOT NULL CHECK (status IN ('ativo', 'inativo')),
+    data_cadastro TIMESTAMP NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE alunos (
+    cod_aluno SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    idade INT CHECK (idade BETWEEN 1 AND 150),
+    status VARCHAR(50) CHECK (status IN ('ATIVO', 'INATIVO', 'SUSPENSO')) DEFAULT 'ATIVO'
+);
+

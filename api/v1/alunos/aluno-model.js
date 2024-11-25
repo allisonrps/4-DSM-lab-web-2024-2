@@ -17,9 +17,14 @@ const Aluno = database.sequelize.define('Aluno', {
    idade: {
     type: Sequelize.INTEGER, 
     allowNull: true
-   }
+   },
+   status: {
+    type: Sequelize.STRING,
+    allowNull: true, 
+    defaultValue: 'ATIVO' // Valor padrão
+}
 }, {
-    tableName: 'aluno',
+    tableName: 'alunos',
     timestamps: false //desabilita o createdAt e updatedAt do sequelize
 });
 

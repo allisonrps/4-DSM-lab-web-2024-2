@@ -14,4 +14,10 @@ const sequelize = new Sequelize(envConfig.database.name,
                                 envConfig.database.password, 
                                 sequelizeConfig);
 
+
+sequelize.authenticate()
+.then(() => console.log('Conexão com o banco de dados foi bem-sucedida.'))
+.catch(err => console.error('Erro ao conectar ao banco de dados:', err));
+
+
 module.exports = {sequelize};

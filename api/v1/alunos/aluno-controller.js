@@ -9,15 +9,13 @@ const getAlunos = async (request, h) => {
     return result;
 }
 
+
 const alunoPorId = async (request, h) => {
 
-    const idAluno = request.params.id;
-    
-    const alunoProcurado = listaAlunos.find(aluno => aluno.id == idAluno);
-    if(alunoProcurado) {
+    const alunoProcurado = await alunoModel.Aluno.findByPk(idAluno);
+    if (alunoProcurado) {
         return h.response(alunoProcurado).code(200);
-    } 
-
+    }
     return h.response().code(404);
 }
 

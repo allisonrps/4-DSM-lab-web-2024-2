@@ -4,7 +4,7 @@ const produtoSchema = require("./produto-schema");
 const baseVersion = '/v1';
 
 const routes = [
-    // a. POST para cadastrar 1 produto por vez
+    // POST para cadastrar 1 produto por vez
     {
         method: "POST",
         path: `${baseVersion}/produtos`,
@@ -14,7 +14,7 @@ const routes = [
         }
     },
 
-    // b. PUT para alterar os dados de um produto
+    // PUT para alterar os dados de um produto
     {
         method: "PUT",
         path: `${baseVersion}/produtos/{id}`,
@@ -24,7 +24,7 @@ const routes = [
         }
     },
 
-    // c. DELETE para remover o produto
+    // DELETE para remover o produto
     {
         method: "DELETE",
         path: `${baseVersion}/produtos/{id}`,
@@ -34,7 +34,7 @@ const routes = [
         }
     },
 
-    // d. GET por id
+    // GET por id
     {
         method: "GET",
         path: `${baseVersion}/produtos/{id}`,
@@ -44,7 +44,7 @@ const routes = [
         }
     },
 
-    // e. GET com filtros (categoria e nome)
+    // GET com filtros (categoria e nome)
     {
         method: "GET",
         path: `${baseVersion}/produtos`,

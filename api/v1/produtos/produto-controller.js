@@ -42,7 +42,12 @@ const getProdutoPorId = async (request, h) => {
 
 // GET - Listar produtos com filtros
 const getProdutos = async (request, h) => {
-    const filters = request.query;
+    const { categoria, nome } = request.query;
+
+    const filters = {
+        categoria,
+        nome
+    };
 
     const produtos = await produtoBusiness.list(filters);
     return h.response(produtos).code(200);

@@ -1,9 +1,12 @@
+const { Op } = require('sequelize'); // Importando operadores do Sequelize
 const produtoModel = require('./produto-model');
 
+// Criar um produto
 const save = async (produto) => {
     return await produtoModel.Produto.create(produto);
 };
 
+// Atualizar um produto por ID
 const update = async (id, updates) => {
     const produto = await produtoModel.Produto.findByPk(id);
     if (produto) {
@@ -12,6 +15,7 @@ const update = async (id, updates) => {
     return null;
 };
 
+// Remover um produto por ID
 const remove = async (id) => {
     const produto = await produtoModel.Produto.findByPk(id);
     if (produto) {
@@ -21,15 +25,30 @@ const remove = async (id) => {
     return false;
 };
 
+// Buscar um produto por ID
 const findById = async (id) => {
     return await produtoModel.Produto.findByPk(id);
 };
 
+// Listar produtos com filtros
 const list = async (filters) => {
     const where = {};
-    if (filters.categoria) where.categoria = filters.categoria;
-    if (filters.nome) where.nome = { [Op.iLike]: `%${filters.nome}%` };
 
+    // Filtro por categoria
+    if (filters.categoria) {
+        where.categoria = {
+            [Op.like]: `%${filters.categoria}%` // Busca parcial por categoria
+        };
+    }
+
+    // Filtro por nome
+    if (filters.nome) {
+        where.nome = {
+            [Op.like]: `%${filters.nome}%` // Busca parcial por nome
+        };
+    }
+
+    // Consultar produtos com os filtros aplicados
     return await produtoModel.Produto.findAll({ where });
 };
 

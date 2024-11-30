@@ -1,102 +1,166 @@
 openapi: 3.0.3
-
 info:
   title: API de Produtos
-  description: Produtos de Venda da Empresa X
-  termsOfService: http//swager.io/terms
-  contact:
-    email: fatec@fatecfranca.edu.br
-  license:
-    name: Apache 2.0
-    url: http//swager.io/terms
+  description: API para gerenciamento de produtos, permitindo operações de CRUD e consultas com filtros.
   version: 1.0.0
-
 servers:
-  - url: http://sistema-compass-homolog.com.br
-  - url: https://sistema-compass.com.br
-
+  - url: http://localhost:5005/v1
+    description: Servidor local de desenvolvimento
 paths:
   /produtos:
+    get:
+      summary: Listar produtos
+      description: Retorna uma lista de produtos, podendo ser filtrada por categoria e nome.
+      parameters:
+        - in: query
+          name: categoria
+          schema:
+            type: string
+          description: Filtrar produtos pela categoria (possível busca parcial).
+        - in: query
+          name: nome
+          schema:
+            type: string
+          description: Filtrar produtos pelo nome (possível busca parcial).
+      responses:
+        200:
+          description: Lista de produtos retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Produto'
     post:
-      summary: Cadastra novos produtos
+      summary: Cadastrar produto
+      description: Cria um novo produto no sistema.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProdutoRequest"
+              $ref: '#/components/schemas/Produto'
       responses:
-        '201':
-          description: Sucesso cadastro produto
+        201:
+          description: Produto criado com sucesso.
+        400:
+          description: Erro na validação dos dados enviados.
+
+  /produtos/{id}:
+    get:
+      summary: Buscar produto por ID
+      description: Retorna os detalhes de um produto pelo seu ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID do produto.
+      responses:
+        200:
+          description: Detalhes do produto retornados com sucesso.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProdutoResponse"
-                
-                
+                $ref: '#/components/schemas/Produto'
+        404:
+          description: Produto não encontrado.
+    put:
+      summary: Atualizar produto
+      description: Atualiza os dados de um produto pelo ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID do produto a ser atualizado.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'
+      responses:
+        200:
+          description: Produto atualizado com sucesso.
+        404:
+          description: Produto não encontrado.
+    delete:
+      summary: Remover produto
+      description: Remove um produto do sistema pelo ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID do produto a ser removido.
+      responses:
+        200:
+          description: Produto removido com sucesso.
+        404:
+          description: Produto não encontrado.
+
 components:
   schemas:
-    
-    ProdutoRequest:
-      type: object
-      properties:
-        descricao:
-          type: string
-          description: Descricao do produto
-          example: Geladeira
-          maxLength: 100
-          minLength: 5
-        preco: 
-          type: object
-          properties:
-            custo:
-              type: number
-              format: decimal
-              example: 19.99
-              description: Preço custo produto
-            venda:
-              type: number
-              format: decimal
-              example: 25.87
-              description: Preco de venda consumidor
-        categorias:
-          type: array
-          items:
-            type: string
-          example: ["A", "B"]
-      required:
-        - descricao
-        - categorias
-        - preco
-
-    ProdutoResponse:
+    Produto:
       type: object
       properties:
         id:
-          type: integer
-          example: 29394
+          type: string
+          description: ID único do produto.
+        nome:
+          type: string
+          description: Nome do produto.
         descricao:
           type: string
-          description: Descricao do produto
-          example: Geladeira
-          maxLength: 100
-          minLength: 5
-        preco: 
+          description: Descrição do produto.
+        categoria:
+          type: string
+          description: Categoria do produto.
+        marca:
+          type: string
+          description: Marca do produto.
+        preco:
+          type: number
+          format: float
+          description: Preço do produto.
+        quantidadeEstoque:
+          type: integer
+          description: Quantidade em estoque do produto.
+        codigoBarras:
+          type: string
+          description: Código de barras do produto.
+        dimensoes:
           type: object
           properties:
-            custo:
+            altura:
               type: number
-              format: decimal
-              example: 19.99
-              description: Preço custo produto
-            venda:
+              description: Altura do produto.
+            largura:
               type: number
-              format: decimal
-              example: 25.87
-              description: Preco de venda consumidor
-        categorias:
-          type: array
-          items:
-            type: string
-          example: ["A", "B"]
-    
+              description: Largura do produto.
+            profundidade:
+              type: number
+              description: Profundidade do produto.
+          description: Dimensões do produto.
+        peso:
+          type: object
+          properties:
+            valor:
+              type: number
+              description: Peso do produto.
+            unidade:
+              type: string
+              description: Unidade do peso (e.g., kg).
+          description: Peso do produto.
+        status:
+          type: string
+          enum: [ativo, inativo]
+          description: Status do produto.
+        dataCadastro:
+          type: string
+          format: date-time
+          description: Data de cadastro do produto.
